@@ -4,7 +4,8 @@ export default {
   name: "optin-route",
   initialize() {
     withPluginApi("0.8.40", (api) => {
-      api.addRoute("optin", { path: "/optin" });
+      // Registriert eine eigene Vollbild-Seite unter /optin
+      api.addFullPage("optin", "optin");
     });
   },
 };
