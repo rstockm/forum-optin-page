@@ -1,7 +1,9 @@
+.optin-mode .category-list {
+  display: none;
+}
+
 .optin-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1rem;
+  margin-top: 1rem;
 }
 
 .optin-card {

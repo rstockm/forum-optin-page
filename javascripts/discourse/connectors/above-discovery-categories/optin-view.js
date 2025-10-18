@@ -1,18 +1,26 @@
-import { computed } from "@ember/object";
+import { getOwner } from "@ember/application";
 
 export default {
   setupComponent(args, component) {
-    const categories = this.site.get("categories") || [];
-    
-    component.setProperties({
-      showOptinView: window.location.search.includes("show_optin=true"),
-      groupedCategories: computed(function () {
-        const parents = categories.filter((c) => !c.parent_category_id);
-        return parents.map((parent) => ({
-          parent,
-          children: categories.filter((c) => c.parent_category_id === parent.id),
-        }));
-      }),
-    });
+    const params = new URLSearchParams(window.location.search);
+    const showOptinView = params.get("show_optin") === "true";
+
+    const owner = getOwner(component);
+    const siteService = owner && owner.lookup("service:site");
+    const categories = (siteService && siteService.get("categories")) || [];
+
+    const parents = categories.filter((c) => !c.parent_category_id);
+    const groupedCategories = parents.map((parent) => ({
+      parent,
+      children: categories.filter((c) => c.parent_category_id === parent.id),
+    }));
+
+    component.setProperties({ showOptinView, groupedCategories });
+
+    if (showOptinView) {
+      document.body.classList.add("optin-mode");
+    } else {
+      document.body.classList.remove("optin-mode");
+    }
   },
 };
