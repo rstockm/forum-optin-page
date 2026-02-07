@@ -5,7 +5,7 @@ import { service } from "@ember/service";
 import { on } from "@ember/modifier";
 import icon from "discourse-common/helpers/d-icon";
 
-const LEVELS = [
+const LEVEL_DATA = [
   { id: 3, icon: "d-watching", label: "Beobachten" },
   { id: 2, icon: "d-tracking", label: "Verfolgen" },
   { id: 1, icon: "d-normal", label: "Normal" },
@@ -29,13 +29,20 @@ export default class OptinNotificationButton extends Component {
 
   get currentLevelInfo() {
     return (
-      LEVELS.find((l) => l.id === this.notificationLevel) ||
-      LEVELS.find((l) => l.id === 1)
+      LEVEL_DATA.find((l) => l.id === this.notificationLevel) ||
+      LEVEL_DATA.find((l) => l.id === 1)
     );
   }
 
   get levels() {
-    return LEVELS;
+    const current = this.notificationLevel;
+    return LEVEL_DATA.map((l) => ({
+      ...l,
+      selected: l.id === current,
+      cssClass:
+        "optin-notification-dropdown-item" +
+        (l.id === current ? " selected" : ""),
+    }));
   }
 
   @action
@@ -46,17 +53,13 @@ export default class OptinNotificationButton extends Component {
   }
 
   @action
-  closeDropdown() {
-    this.dropdownOpen = false;
-  }
-
-  @action
-  async selectLevel(levelId, event) {
+  handleItemClick(event) {
     event.preventDefault();
     event.stopPropagation();
+    const levelId = parseInt(event.currentTarget.dataset.level, 10);
     this.dropdownOpen = false;
     if (this.category?.setNotification) {
-      await this.category.setNotification(levelId);
+      this.category.setNotification(levelId);
     }
   }
 
@@ -75,8 +78,9 @@ export default class OptinNotificationButton extends Component {
           <div class="optin-notification-dropdown">
             {{#each this.levels as |lvl|}}
               <button
-                class="optin-notification-dropdown-item {{if (eq lvl.id this.notificationLevel) 'selected'}}"
-                {{on "click" (fn this.selectLevel lvl.id)}}
+                class={{lvl.cssClass}}
+                data-level={{lvl.id}}
+                {{on "click" this.handleItemClick}}
               >
                 {{icon lvl.icon}}
                 <span>{{lvl.label}}</span>
