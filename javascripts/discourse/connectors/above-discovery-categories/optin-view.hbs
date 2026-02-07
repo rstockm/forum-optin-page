@@ -4,7 +4,7 @@
       <section class="optin-card">
         <div class="optin-card-header">
           {{category-title-link category=group.parent}}
-          {{category-notifications-button category=group.parent}}
+          <OptinNotificationButton @category={{group.parent}} />
         </div>
 
         {{#if group.children.length}}
@@ -12,7 +12,7 @@
             {{#each group.children as |sub|}}
               <span class="optin-chip">
                 {{category-title-link category=sub}}
-                {{category-notifications-button category=sub}}
+                <OptinNotificationButton @category={{sub}} />
               </span>
             {{/each}}
           </div>
