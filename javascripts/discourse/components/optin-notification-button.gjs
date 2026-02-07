@@ -8,8 +8,8 @@ import icon from "discourse-common/helpers/d-icon";
 const LEVEL_DATA = [
   { id: 3, icon: "d-watching", label: "Beobachten" },
   { id: 2, icon: "d-tracking", label: "Verfolgen" },
-  { id: 4, icon: "d-watching-first-post", label: "Ersten Beitrag beobachten" },
-  { id: 1, icon: "bell", label: "Normal" },
+  { id: 4, icon: "bell-plus", label: "Ersten Beitrag beobachten" },
+  { id: 1, icon: "far-bell", label: "Normal" },
   { id: 0, icon: "d-muted", label: "Stummgeschaltet" },
 ];
 
