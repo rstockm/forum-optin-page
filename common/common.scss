@@ -31,6 +31,7 @@
 
   &.level-3 .d-icon { color: var(--success, #009a6a); }  /* Watching */
   &.level-2 .d-icon { color: var(--tertiary, #0b79d0); } /* Tracking */
+  &.level-4 .d-icon { color: var(--tertiary, #0b79d0); } /* First post */
   &.level-0 .d-icon { color: var(--primary-medium, #999); } /* Muted */
 
   &:hover {
