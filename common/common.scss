@@ -1,5 +1,10 @@
-.optin-mode .category-list {
-  display: none;
+.optin-mode {
+  .category-list,
+  .topic-list,
+  .latest-topic-list,
+  .muted-categories {
+    display: none;
+  }
 }
 
 /* ---- View-Schalter ---- */
