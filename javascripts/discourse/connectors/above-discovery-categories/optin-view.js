@@ -15,21 +15,32 @@ export default {
       const siteService = owner && owner.lookup("service:site");
       const categories = (siteService && siteService.get("categories")) || [];
 
+      const getCategoryUrl = (cat) => {
+        if (cat.url) return getURL(cat.url);
+        let slug = cat.full_slug || cat.slug;
+        if (cat.parent_category_id && !cat.full_slug) {
+          const parent = categories.find((c) => c.id === cat.parent_category_id);
+          slug = parent ? parent.slug + "/" + cat.slug : cat.slug;
+        }
+        return getURL("/c/") + slug + "/" + cat.id;
+      };
+
       const parents = categories.filter((c) => !c.parent_category_id);
       const groupedCategories = parents.map((parent) => {
         const children = categories.filter(
           (c) => c.parent_category_id === parent.id
         );
 
-        // Ensure description is available or try to find it
         const fixDescription = (cat) => {
-          cat.description = cat.description || cat.description_text || cat.description_excerpt;
+          cat.description =
+            cat.description || cat.description_text || cat.description_excerpt;
+          cat.url = getCategoryUrl(cat);
           return cat;
         };
 
         return {
-          parent: fixDescription(parent),
-          children: children.map(fixDescription),
+          parent: fixDescription({ ...parent }),
+          children: children.map((c) => fixDescription({ ...c })),
         };
       });
 

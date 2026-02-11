@@ -8,21 +8,6 @@
     display: none !important;
   }
 
-  .badge-category-bg,
-  .badge-category-parent-bg,
-  .category-color-chip,
-  .badge-wrapper.bullet .badge-category-bg,
-  .badge-wrapper.bullet .badge-category-parent-bg,
-  .badge-wrapper.bar .badge-category-bg,
-  .badge-wrapper.bar .badge-category-parent-bg,
-  .badge-wrapper.box .badge-category-bg {
-    display: none !important;
-  }
-
-  .category-title-link .badge-category-bg,
-  .category-title-link .badge-category-parent-bg {
-    display: none !important;
-  }
 }
 
 /* ---- View-Schalter ---- */
@@ -147,10 +132,16 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.75rem;
+}
 
-  .category-title-link {
-    font-size: var(--font-up-2);
-    font-weight: 700;
+.optin-category-link {
+  font-size: var(--font-up-2);
+  font-weight: 700;
+  color: var(--primary);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
     color: var(--primary);
   }
 }
@@ -176,8 +167,11 @@
   padding-top: 1rem;
   border-top: 1px solid var(--primary-low);
   margin-bottom: 0.75rem;
-  
-  .d-icon { font-size: 0.75rem; }
+
+  .optin-chevron {
+    font-size: 0.7rem;
+    color: var(--primary-medium);
+  }
 }
 
 .optin-subcats {
@@ -201,27 +195,43 @@
     background: var(--primary-very-low);
   }
 
-  .category-title-link {
+  .optin-category-link {
     color: var(--primary-high);
     font-size: var(--font-down-1);
+    font-weight: normal;
   }
 }
 
 .optin-info-icon {
   position: relative;
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
   cursor: help;
-  color: var(--tertiary);
   margin: 0 0.25rem;
-  
-  .d-icon { 
-    font-size: 0.95rem;
-    display: inline-block;
-  }
+}
 
-  &:hover .optin-info-tooltip {
-    display: block;
+.optin-info-i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  background: var(--tertiary);
+  color: var(--secondary);
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1;
+
+  .optin-info-icon:hover & {
+    background: var(--primary);
   }
+}
+
+.optin-info-icon:hover .optin-info-tooltip {
+  display: block;
 }
 
 .optin-info-tooltip {

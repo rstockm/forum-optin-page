@@ -16,9 +16,9 @@
 {{#if this.showOptinView}}
   <div class="optin-grid">
     {{#each this.groupedCategories as |group|}}
-      <section class="optin-card" style={{html-safe (concat "border-left-color: #" group.parent.color)}}>
+      <section class="optin-card" style={{html-safe (concat "border-left-color: #" (if group.parent.color group.parent.color "999999"))}}>
         <div class="optin-card-header">
-          {{category-title-link category=group.parent}}
+          <a href={{group.parent.url}} class="optin-category-link">{{group.parent.name}}</a>
           <OptinNotificationButton @category={{group.parent}} />
         </div>
         
@@ -30,16 +30,16 @@
 
         {{#if group.children.length}}
           <div class="optin-subcats-label">
-            {{d-icon "chevron-down"}} UNTERKATEGORIEN
+            <span class="optin-chevron">▼</span> UNTERKATEGORIEN
           </div>
           <div class="optin-subcats">
             {{#each group.children as |sub|}}
               <span class="optin-chip">
-                {{category-title-link category=sub}}
+                <a href={{sub.url}} class="optin-category-link">{{sub.name}}</a>
                 
                 {{#if sub.description}}
                   <span class="optin-info-icon">
-                    {{d-icon "info-circle"}}
+                    <span class="optin-info-i">i</span>
                     <div class="optin-info-tooltip">
                       {{html-safe sub.description}}
                     </div>
