@@ -16,10 +16,22 @@ export default {
       const categories = (siteService && siteService.get("categories")) || [];
 
       const parents = categories.filter((c) => !c.parent_category_id);
-      const groupedCategories = parents.map((parent) => ({
-        parent,
-        children: categories.filter((c) => c.parent_category_id === parent.id),
-      }));
+      const groupedCategories = parents.map((parent) => {
+        const children = categories.filter(
+          (c) => c.parent_category_id === parent.id
+        );
+
+        // Ensure description is available or try to find it
+        const fixDescription = (cat) => {
+          cat.description = cat.description || cat.description_text || cat.description_excerpt;
+          return cat;
+        };
+
+        return {
+          parent: fixDescription(parent),
+          children: children.map(fixDescription),
+        };
+      });
 
       component.setProperties({
         showOptinView,
