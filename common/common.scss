@@ -2,6 +2,32 @@
   display: none;
 }
 
+/* ---- View-Schalter ---- */
+.optin-view-switcher {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.optin-view-link {
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--primary-low, #e5e5e5);
+  border-radius: 6px;
+  background: var(--secondary, #fff);
+  color: var(--primary-high, #2f3941);
+  font-size: var(--font-down-1);
+  text-decoration: none;
+
+  &:hover {
+    background: var(--primary-very-low, #f5f5f5);
+  }
+
+  &.active {
+    font-weight: 700;
+    background: var(--primary-low, #e5e5e5);
+  }
+}
+
 .optin-grid {
   margin-top: 1rem;
 }
