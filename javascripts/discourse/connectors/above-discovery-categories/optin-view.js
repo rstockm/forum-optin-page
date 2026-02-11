@@ -31,21 +31,22 @@ export default {
           (c) => c.parent_category_id === parent.id
         );
 
-        const fixDescription = (cat) => {
-          const copy = { ...cat };
-          copy.description =
-            copy.description || copy.description_text || copy.description_excerpt;
-          copy.url = getCategoryUrl(copy);
-          copy.color =
-            copy.color ||
-            cat.color ||
-            (typeof cat.get === "function" ? cat.get("color") : undefined);
-          return copy;
+        const wrap = (cat) => {
+          return {
+            model: cat,
+            name: cat.name,
+            description:
+              cat.description || cat.description_text || cat.description_excerpt,
+            url: getCategoryUrl(cat),
+            color:
+              cat.color ||
+              (typeof cat.get === "function" ? cat.get("color") : "999999"),
+          };
         };
 
         return {
-          parent: fixDescription(parent),
-          children: children.map((c) => fixDescription(c)),
+          parent: wrap(parent),
+          children: children.map((c) => wrap(c)),
         };
       });
 

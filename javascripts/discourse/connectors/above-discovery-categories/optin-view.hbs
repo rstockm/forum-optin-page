@@ -19,7 +19,7 @@
       <section class="optin-card" style={{html-safe (concat "border-left-color: #" (if group.parent.color group.parent.color "999999"))}}>
         <div class="optin-card-header">
           <a href={{group.parent.url}} class="optin-category-link">{{group.parent.name}}</a>
-          <OptinNotificationButton @category={{group.parent}} />
+          <OptinNotificationButton @category={{group.parent.model}} />
         </div>
         
         {{#if group.parent.description}}
@@ -46,7 +46,7 @@
                   </span>
                 {{/if}}
 
-                <OptinNotificationButton @category={{sub}} />
+                <OptinNotificationButton @category={{sub.model}} />
               </span>
             {{/each}}
           </div>
