@@ -201,14 +201,10 @@
   .d-icon { 
     font-size: 0.95rem;
     display: inline-block;
-    
-    &:empty + .optin-info-icon-fallback {
-      display: inline-flex;
-    }
   }
 
   .optin-info-icon-fallback {
-    display: none;
+    display: inline-flex;
     width: 16px;
     height: 16px;
     background: var(--tertiary);
@@ -219,6 +215,7 @@
     align-items: center;
     justify-content: center;
     line-height: 1;
+    margin-right: 4px;
   }
 
   &:hover .optin-info-tooltip {
