@@ -10,7 +10,17 @@
 
   .badge-category-bg,
   .badge-category-parent-bg,
-  .category-color-chip {
+  .category-color-chip,
+  .badge-wrapper.bullet .badge-category-bg,
+  .badge-wrapper.bullet .badge-category-parent-bg,
+  .badge-wrapper.bar .badge-category-bg,
+  .badge-wrapper.bar .badge-category-parent-bg,
+  .badge-wrapper.box .badge-category-bg {
+    display: none !important;
+  }
+
+  .category-title-link .badge-category-bg,
+  .category-title-link .badge-category-parent-bg {
     display: none !important;
   }
 }

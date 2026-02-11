@@ -39,9 +39,7 @@
                 
                 {{#if sub.description}}
                   <span class="optin-info-icon">
-                    <svg class="fa d-icon d-icon-info-circle svg-icon svg-node" aria-hidden="true">
-                      <use xlink:href="#info-circle"></use>
-                    </svg>
+                    {{d-icon "info-circle"}}
                     <div class="optin-info-tooltip">
                       {{html-safe sub.description}}
                     </div>
