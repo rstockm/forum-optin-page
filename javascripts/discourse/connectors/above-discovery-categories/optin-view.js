@@ -1,4 +1,5 @@
 import { getOwner } from "@ember/application";
+import getURL from "discourse-common/lib/get-url";
 
 export default {
   setupComponent(args, component) {
@@ -18,7 +19,12 @@ export default {
         children: categories.filter((c) => c.parent_category_id === parent.id),
       }));
 
-      component.setProperties({ showOptinView, groupedCategories });
+      component.setProperties({
+        showOptinView,
+        groupedCategories,
+        optinUrl: getURL("/categories?show_optin=true"),
+        standardUrl: getURL("/categories"),
+      });
 
       if (showOptinView) {
         document.body.classList.add("optin-mode");
