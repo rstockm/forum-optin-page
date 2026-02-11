@@ -99,7 +99,8 @@ export default {
         if (router) {
           router.off("routeDidChange", updateProperties);
         }
-      }
+        document.body.classList.remove("optin-mode");
+      },
     });
   },
 };
