@@ -1,0 +1,10 @@
+# Cursor & AI History
+.cursor/
+.specstory/
+.cursorindexingignore
+
+# OS specific
+.DS_Store
+
+# Mockups
+*.pdf
