@@ -137,12 +137,19 @@
 .optin-category-link {
   font-size: var(--font-up-2);
   font-weight: 700;
-  color: var(--primary);
+  color: var(--primary) !important;
   text-decoration: none;
+
+  &:link,
+  &:visited,
+  &:hover,
+  &:active {
+    color: var(--primary) !important;
+    text-decoration: none;
+  }
 
   &:hover {
     text-decoration: underline;
-    color: var(--primary);
   }
 }
 
@@ -196,9 +203,17 @@
   }
 
   .optin-category-link {
-    color: var(--primary-high);
+    color: var(--primary-high) !important;
     font-size: var(--font-down-1);
     font-weight: normal;
+
+    &:link,
+    &:visited,
+    &:hover,
+    &:active {
+      color: var(--primary-high) !important;
+      text-decoration: none;
+    }
   }
 }
 
