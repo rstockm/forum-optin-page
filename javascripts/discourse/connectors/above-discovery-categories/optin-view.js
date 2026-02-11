@@ -7,8 +7,10 @@ export default {
     const router = owner.lookup("service:router");
 
     const updateProperties = () => {
-      const params = new URLSearchParams(window.location.search);
-      const showOptinView = params.get("show_optin") === "true";
+      const queryParams = router?.currentRoute?.queryParams || {};
+      const showOptinView =
+        queryParams.show_optin === "true" ||
+        new URLSearchParams(window.location.search).get("show_optin") === "true";
 
       const siteService = owner && owner.lookup("service:site");
       const categories = (siteService && siteService.get("categories")) || [];
@@ -43,18 +45,22 @@ export default {
     component.set("switchToStandard", (event) => {
       event.preventDefault();
       if (router) {
-        router.transitionTo("discovery.categories", {
-          queryParams: { show_optin: undefined },
-        });
+        router
+          .transitionTo("discovery.categories", {
+            queryParams: { show_optin: undefined },
+          })
+          .then(() => updateProperties());
       }
     });
 
     component.set("switchToOptin", (event) => {
       event.preventDefault();
       if (router) {
-        router.transitionTo("discovery.categories", {
-          queryParams: { show_optin: "true" },
-        });
+        router
+          .transitionTo("discovery.categories", {
+            queryParams: { show_optin: "true" },
+          })
+          .then(() => updateProperties());
       }
     });
 
