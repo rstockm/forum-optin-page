@@ -195,9 +195,13 @@
   position: relative;
   display: inline-flex;
   cursor: help;
-  color: var(--primary-medium);
+  color: var(--tertiary);
+  margin: 0 0.25rem;
   
-  .d-icon { font-size: 0.9rem; }
+  .d-icon { 
+    font-size: 0.95rem;
+    display: inline-block;
+  }
 
   &:hover .optin-info-tooltip {
     display: block;

@@ -5,5 +5,9 @@
   "license_url": "https://github.com/discourse/discourse/blob/main/LICENSE.txt",
   "authors": "Prototype by Assistant",
   "theme_version": "0.1",
+  "svg_icons": [
+    "info-circle",
+    "chevron-down"
+  ],
   "assets": {}
 }
