@@ -32,15 +32,20 @@ export default {
         );
 
         const fixDescription = (cat) => {
-          cat.description =
-            cat.description || cat.description_text || cat.description_excerpt;
-          cat.url = getCategoryUrl(cat);
-          return cat;
+          const copy = { ...cat };
+          copy.description =
+            copy.description || copy.description_text || copy.description_excerpt;
+          copy.url = getCategoryUrl(copy);
+          copy.color =
+            copy.color ||
+            cat.color ||
+            (typeof cat.get === "function" ? cat.get("color") : undefined);
+          return copy;
         };
 
         return {
-          parent: fixDescription({ ...parent }),
-          children: children.map((c) => fixDescription({ ...c })),
+          parent: fixDescription(parent),
+          children: children.map((c) => fixDescription(c)),
         };
       });
 
