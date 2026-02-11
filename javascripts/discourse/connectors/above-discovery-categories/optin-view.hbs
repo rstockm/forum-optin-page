@@ -1,6 +1,16 @@
 <nav class="optin-view-switcher" aria-label="Ansicht wechseln">
-  <a href={{this.standardUrl}} class="optin-view-link {{unless this.showOptinView "active"}}" title="Standard-Ansicht">Standard</a>
-  <a href={{this.optinUrl}} class="optin-view-link {{if this.showOptinView "active"}}" title="Opt-in-Ansicht">Opt-in</a>
+  <a href={{this.standardUrl}} 
+     class="optin-view-link {{unless this.showOptinView "active"}}" 
+     title="Standard-Ansicht"
+     {{action "switchToStandard"}}>
+    Standard
+  </a>
+  <a href={{this.optinUrl}} 
+     class="optin-view-link {{if this.showOptinView "active"}}" 
+     title="Opt-in-Ansicht"
+     {{action "switchToOptin"}}>
+    Opt-in
+  </a>
 </nav>
 
 {{#if this.showOptinView}}

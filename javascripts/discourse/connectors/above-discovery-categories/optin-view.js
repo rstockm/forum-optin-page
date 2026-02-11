@@ -40,6 +40,24 @@ export default {
       router.on("routeDidChange", updateProperties);
     }
 
+    component.set("switchToStandard", (event) => {
+      event.preventDefault();
+      if (router) {
+        router.transitionTo("discovery.categories", {
+          queryParams: { show_optin: undefined },
+        });
+      }
+    });
+
+    component.set("switchToOptin", (event) => {
+      event.preventDefault();
+      if (router) {
+        router.transitionTo("discovery.categories", {
+          queryParams: { show_optin: "true" },
+        });
+      }
+    });
+
     component.reopen({
       willDestroyElement() {
         this._super(...arguments);
