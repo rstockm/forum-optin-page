@@ -13,6 +13,8 @@ const LEVEL_DATA = [
   { id: 0, icon: "d-muted", label: "Stummgeschaltet" },
 ];
 
+let activeDropdown = null;
+
 export default class OptinNotificationButton extends Component {
   @service currentUser;
 
@@ -50,7 +52,33 @@ export default class OptinNotificationButton extends Component {
   toggleDropdown(event) {
     event.preventDefault();
     event.stopPropagation();
+
+    if (activeDropdown && activeDropdown !== this) {
+      activeDropdown.close();
+    }
+
     this.dropdownOpen = !this.dropdownOpen;
+
+    if (this.dropdownOpen) {
+      activeDropdown = this;
+      window.addEventListener("click", this.outsideClick);
+    } else {
+      this.close();
+    }
+  }
+
+  @action
+  outsideClick() {
+    this.close();
+  }
+
+  @action
+  close() {
+    this.dropdownOpen = false;
+    window.removeEventListener("click", this.outsideClick);
+    if (activeDropdown === this) {
+      activeDropdown = null;
+    }
   }
 
   @action
@@ -58,9 +86,17 @@ export default class OptinNotificationButton extends Component {
     event.preventDefault();
     event.stopPropagation();
     const levelId = parseInt(event.currentTarget.dataset.level, 10);
-    this.dropdownOpen = false;
+    this.close();
     if (this.category?.setNotification) {
       this.category.setNotification(levelId);
+    }
+  }
+
+  willDestroy() {
+    super.willDestroy(...arguments);
+    window.removeEventListener("click", this.outsideClick);
+    if (activeDropdown === this) {
+      activeDropdown = null;
     }
   }
 
