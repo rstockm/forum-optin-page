@@ -116,7 +116,16 @@
 
   &.selected {
     font-weight: 700;
-    background: var(--primary-very-low, #f5f5f5);
+    background: var(--tertiary-low, #eaf5ff);
+    color: var(--tertiary, #0b79d0);
+
+    .d-icon {
+      color: var(--tertiary, #0b79d0);
+    }
+
+    &:hover {
+      background: var(--tertiary-medium, #d1e8ff);
+    }
   }
 }
 
