@@ -1,9 +1,11 @@
 .optin-mode {
   .category-list,
+  .categories-and-latest,
   .topic-list,
   .latest-topic-list,
-  .muted-categories {
-    display: none;
+  .muted-categories,
+  #muted-categories {
+    display: none !important;
   }
 }
 
