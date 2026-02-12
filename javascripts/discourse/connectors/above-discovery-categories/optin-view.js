@@ -13,7 +13,9 @@ export default {
         new URLSearchParams(window.location.search).get("show_optin") === "true";
 
       const siteService = owner && owner.lookup("service:site");
-      const categories = (siteService && siteService.get("categories")) || [];
+      const categories = ((siteService && siteService.get("categories")) || [])
+        .slice()
+        .sort((a, b) => a.name.localeCompare(b.name));
 
       const getCategoryUrl = (cat) => {
         if (cat.url) return getURL(cat.url);

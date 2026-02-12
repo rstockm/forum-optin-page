@@ -208,7 +208,8 @@
   border-radius: 999px;
   padding: 0.35rem 0.75rem;
   background: var(--secondary, #fff);
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  order: 1; /* Default: Vorne */
 
   &:hover {
     border-color: var(--primary-medium);
@@ -217,6 +218,8 @@
 
   &[data-notification-level="0"] {
     border-color: var(--primary-low, #e5e5e5) !important;
+    order: 2; /* Muted: Hinten */
+    opacity: 0.8;
   }
 
   .optin-category-link {
