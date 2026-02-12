@@ -241,7 +241,6 @@
   &:hover {
     border-color: var(--primary-medium);
     background: var(--primary-very-low);
-    transform: translateY(-1px);
   }
 
   &[data-notification-level="0"] {
