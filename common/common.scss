@@ -222,18 +222,23 @@
   border-radius: 999px;
   padding: 0.35rem 0.75rem;
   background: var(--secondary, #fff);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  order: 1; /* Default: Vorne */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  order: 1;
+  backface-visibility: hidden;
+  
+  /* Animation beim Statuswechsel */
+  animation: optin-chip-fade 0.5s ease-out;
 
   &:hover {
     border-color: var(--primary-medium);
     background: var(--primary-very-low);
+    transform: translateY(-1px);
   }
 
   &[data-notification-level="0"] {
     border-color: var(--primary-low, #e5e5e5) !important;
     order: 2; /* Muted: Hinten */
-    opacity: 0.8;
+    opacity: 0.7;
   }
 
   .optin-category-link {
@@ -248,6 +253,17 @@
       color: var(--primary-high) !important;
       text-decoration: none;
     }
+  }
+}
+
+@keyframes optin-chip-fade {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
