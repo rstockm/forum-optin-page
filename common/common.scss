@@ -274,7 +274,12 @@
   &[data-notification-level="0"] {
     border-color: var(--primary-low, #e5e5e5) !important;
     order: 2; /* Muted: Hinten */
-    opacity: 0.7;
+    
+    .optin-category-link,
+    .optin-info-icon,
+    .optin-notification-btn {
+      opacity: 0.6;
+    }
   }
 
   .optin-category-link {
