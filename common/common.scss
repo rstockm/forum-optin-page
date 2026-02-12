@@ -215,6 +215,10 @@
     background: var(--primary-very-low);
   }
 
+  &[data-notification-level="0"] {
+    border-color: var(--primary-low, #e5e5e5) !important;
+  }
+
   .optin-category-link {
     color: var(--primary-high) !important;
     font-size: var(--font-down-1);

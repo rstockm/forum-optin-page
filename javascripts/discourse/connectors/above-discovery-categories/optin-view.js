@@ -32,15 +32,6 @@ export default {
         );
 
         const wrap = (cat, parentColor = null) => {
-          const notificationLevel = cat.get
-            ? cat.get("notification_level")
-            : cat.notification_level;
-
-          let chipBorderColor = "var(--primary-low)";
-          if (notificationLevel !== 0 && parentColor) {
-            chipBorderColor = `#${parentColor}`;
-          }
-
           return {
             model: cat,
             name: cat.name,
@@ -51,8 +42,6 @@ export default {
               cat.color ||
               (typeof cat.get === "function" ? cat.get("color") : "999999"),
             parentColor: parentColor,
-            chipBorderColor,
-            notificationLevel,
           };
         };
 
