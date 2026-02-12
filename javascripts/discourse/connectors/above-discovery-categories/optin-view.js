@@ -13,25 +13,24 @@ export default {
         new URLSearchParams(window.location.search).get("show_optin") === "true";
 
       const siteService = owner && owner.lookup("service:site");
-      const categories = ((siteService && siteService.get("categories")) || [])
-        .slice()
-        .sort((a, b) => a.name.localeCompare(b.name));
+      const allCategories = (siteService && siteService.get("categories")) || [];
 
       const getCategoryUrl = (cat) => {
         if (cat.url) return getURL(cat.url);
         let slug = cat.full_slug || cat.slug;
         if (cat.parent_category_id && !cat.full_slug) {
-          const parent = categories.find((c) => c.id === cat.parent_category_id);
+          const parent = allCategories.find((c) => c.id === cat.parent_category_id);
           slug = parent ? parent.slug + "/" + cat.slug : cat.slug;
         }
         return getURL("/c/") + slug + "/" + cat.id;
       };
 
-      const parents = categories.filter((c) => !c.parent_category_id);
+      const parents = allCategories.filter((c) => !c.parent_category_id);
       const groupedCategories = parents.map((parent) => {
-        const children = categories.filter(
-          (c) => c.parent_category_id === parent.id
-        );
+        const children = allCategories
+          .filter((c) => c.parent_category_id === parent.id)
+          .slice()
+          .sort((a, b) => a.name.localeCompare(b.name));
 
         const wrap = (cat, parentColor = null) => {
           return {
