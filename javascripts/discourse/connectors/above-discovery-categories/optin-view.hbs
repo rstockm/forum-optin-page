@@ -34,7 +34,7 @@
           </div>
           <div class="optin-subcats">
             {{#each group.children as |sub|}}
-              <span class="optin-chip" style={{html-safe (concat "border-color: " (if (eq sub.model.notification_level 0) "var(--primary-low)" (concat "#" sub.parentColor))))}}>
+              <span class="optin-chip" style={{html-safe (concat "border-color: " sub.chipBorderColor)}}>
                 <a href={{sub.url}} class="optin-category-link">{{sub.name}}</a>
                 
                 {{#if sub.description}}
