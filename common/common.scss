@@ -63,14 +63,20 @@
 
   .d-icon {
     font-size: 1rem;
-    color: var(--primary-high, #2f3941);
+    color: var(--primary-medium, #999);
     margin: 0;
   }
 
-  &.level-3 .d-icon { color: var(--success, #009a6a); }  /* Watching */
-  &.level-2 .d-icon { color: var(--tertiary, #0b79d0); } /* Tracking */
-  &.level-4 .d-icon { color: var(--tertiary, #0b79d0); } /* First post */
-  &.level-0 .d-icon { color: var(--primary-medium, #999); } /* Muted */
+  &.level-3 .d-icon,
+  &.level-2 .d-icon,
+  &.level-4 .d-icon,
+  &.level-1 .d-icon { 
+    color: var(--primary-high, #2f3941); 
+  }
+
+  &.level-0 .d-icon { 
+    color: var(--primary-low, #e5e5e5); 
+  }
 
   &:hover {
     background: var(--primary-very-low, #f5f5f5);
@@ -110,6 +116,10 @@
     color: var(--primary-high, #2f3941);
   }
 
+  &[data-level="0"] .d-icon {
+    color: var(--primary-low, #e5e5e5);
+  }
+
   &:hover {
     background: var(--primary-very-low, #f5f5f5);
   }
@@ -120,7 +130,11 @@
     color: var(--tertiary, #0b79d0);
 
     .d-icon {
-      color: var(--tertiary, #0b79d0);
+      color: var(--primary-high, #2f3941);
+    }
+
+    &[data-level="0"] .d-icon {
+      color: var(--primary-low, #e5e5e5);
     }
 
     &:hover {
