@@ -87,8 +87,20 @@ export default class OptinNotificationButton extends Component {
     event.stopPropagation();
     const levelId = parseInt(event.currentTarget.dataset.level, 10);
     this.close();
+
+    // Hauptkategorie aktualisieren
     if (this.category?.setNotification) {
       this.category.setNotification(levelId);
+    }
+
+    // Unterkategorien aktualisieren (falls vorhanden)
+    if (this.args.children) {
+      this.args.children.forEach((child) => {
+        const childModel = child.model || child;
+        if (childModel?.setNotification) {
+          childModel.setNotification(levelId);
+        }
+      });
     }
   }
 
