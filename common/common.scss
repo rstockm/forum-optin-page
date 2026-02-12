@@ -75,7 +75,7 @@
   }
 
   &.level-0 .d-icon { 
-    color: var(--primary-low, #e5e5e5); 
+    color: var(--primary-medium, #919191); 
   }
 
   &:hover {
@@ -117,7 +117,7 @@
   }
 
   &[data-level="0"] .d-icon {
-    color: var(--primary-low, #e5e5e5);
+    color: var(--primary-medium, #919191);
   }
 
   &:hover {
@@ -134,7 +134,7 @@
     }
 
     &[data-level="0"] .d-icon {
-      color: var(--primary-low, #e5e5e5);
+      color: var(--primary-medium, #919191);
     }
 
     &:hover {
