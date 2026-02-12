@@ -31,7 +31,7 @@ export default {
           (c) => c.parent_category_id === parent.id
         );
 
-        const wrap = (cat) => {
+        const wrap = (cat, parentColor = null) => {
           return {
             model: cat,
             name: cat.name,
@@ -41,12 +41,17 @@ export default {
             color:
               cat.color ||
               (typeof cat.get === "function" ? cat.get("color") : "999999"),
+            parentColor: parentColor,
+            notificationLevel: cat.get
+              ? cat.get("notification_level")
+              : cat.notification_level,
           };
         };
 
+        const parentWrapped = wrap(parent);
         return {
-          parent: wrap(parent),
-          children: children.map((c) => wrap(c)),
+          parent: parentWrapped,
+          children: children.map((c) => wrap(c, parentWrapped.color)),
         };
       });
 
