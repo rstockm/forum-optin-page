@@ -102,7 +102,7 @@ export default class OptinNotificationButton extends Component {
 
   <template>
     {{#if this.currentUser}}
-      <div class="optin-notification-btn-wrap">
+      <div class="optin-notification-btn-wrap {{if this.dropdownOpen "is-dropdown-open"}}">
         <button
           class="btn btn-default optin-notification-btn level-{{this.currentLevelInfo.id}}"
           title={{this.currentLevelInfo.label}}

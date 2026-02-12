@@ -44,6 +44,10 @@
 .optin-notification-btn-wrap {
   position: relative;
   display: inline-flex;
+
+  &.is-dropdown-open {
+    z-index: 1010;
+  }
 }
 
 .optin-notification-btn {
@@ -225,6 +229,11 @@
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   order: 1;
   backface-visibility: hidden;
+  position: relative;
+
+  &:has(.is-dropdown-open) {
+    z-index: 1010;
+  }
   
   /* Animation beim Statuswechsel */
   animation: optin-chip-fade 0.5s ease-out;
