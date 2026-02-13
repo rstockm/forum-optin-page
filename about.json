@@ -8,7 +8,9 @@
   "svg_icons": [
     "info-circle",
     "question-circle",
-    "chevron-down"
+    "chevron-down",
+    "search",
+    "times"
   ],
   "assets": {}
 }

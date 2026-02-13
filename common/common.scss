@@ -14,7 +14,7 @@
 .optin-controls {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 1.5rem;
@@ -56,6 +56,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  
+  .d-icon {
+    font-size: 1rem;
+    width: 1rem;
+    height: 1rem;
+  }
 }
 
 .optin-search-clear {
