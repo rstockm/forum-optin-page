@@ -84,18 +84,21 @@ $optin-control-height: 38px;
   }
 }
 
-.optin-search-input {
+.optin-search-wrap .optin-search-input {
   flex: 1;
   min-width: 0;
   height: 100%;
   padding: 0 0.5rem;
   margin: 0;
   border: none !important;
-  background: transparent;
+  border-width: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
   color: var(--primary);
   font-size: var(--font-down-1);
   font-family: inherit;
-  line-height: 38px; /* = control height, für vertikale Textzentrierung */
+  line-height: 38px;
   box-sizing: border-box;
   -webkit-appearance: none;
   appearance: none;
@@ -104,10 +107,25 @@ $optin-control-height: 38px;
     color: var(--primary-medium);
   }
 
-  &:focus {
-    outline: none;
-    box-shadow: none;
+  &:focus,
+  &:active,
+  &:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
   }
+
+  &::-webkit-search-decoration,
+  &::-webkit-search-cancel-button {
+    display: none;
+  }
+}
+
+.optin-search-wrap:focus-within .optin-search-input,
+.optin-search-wrap .optin-search-input:focus {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
 .optin-search-wrap:focus-within {
