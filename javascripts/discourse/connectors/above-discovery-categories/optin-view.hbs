@@ -16,17 +16,16 @@
 
   {{#if this.showOptinView}}
     <div class="optin-search-wrapper">
+      <span class="optin-search-icon">{{d-icon "search"}}</span>
       <input type="text" 
              value={{this.searchTerm}} 
              placeholder="Kategorien filtern" 
              class="optin-search-input"
              {{on "input" this.onSearchTermChange}}>
       {{#if this.searchTerm}}
-        <button class="optin-search-clear" {{action "clearSearch"}}>
+        <button class="optin-search-clear" {{action "clearSearch"}} title="Suche löschen">
           {{d-icon "times"}}
         </button>
-      {{else}}
-        <span class="optin-search-icon">{{d-icon "search"}}</span>
       {{/if}}
     </div>
   {{/if}}
