@@ -12,6 +12,8 @@ export default {
         queryParams.show_optin === "true" ||
         new URLSearchParams(window.location.search).get("show_optin") === "true";
 
+      const searchTerm = (component.get("searchTerm") || "").toLowerCase();
+
       const siteService = owner && owner.lookup("service:site");
       const allCategories = (siteService && siteService.get("categories")) || [];
 
@@ -53,9 +55,31 @@ export default {
         };
       });
 
+      let filteredCategories = groupedCategories;
+      if (searchTerm) {
+        filteredCategories = groupedCategories
+          .map((group) => {
+            const parentMatch =
+              group.parent.name.toLowerCase().includes(searchTerm) ||
+              (group.parent.description || "").toLowerCase().includes(searchTerm);
+
+            const matchingChildren = group.children.filter(
+              (child) =>
+                child.name.toLowerCase().includes(searchTerm) ||
+                (child.description || "").toLowerCase().includes(searchTerm)
+            );
+
+            if (parentMatch || matchingChildren.length > 0) {
+              return { ...group, children: matchingChildren };
+            }
+            return null;
+          })
+          .filter(Boolean);
+      }
+
       component.setProperties({
         showOptinView,
-        groupedCategories,
+        groupedCategories: filteredCategories,
         optinUrl: getURL("/categories?show_optin=true"),
         standardUrl: getURL("/categories"),
       });
@@ -66,6 +90,16 @@ export default {
         document.body.classList.remove("optin-mode");
       }
     };
+
+    component.set("onSearchTermChange", (event) => {
+      component.set("searchTerm", event.target.value);
+      updateProperties();
+    });
+
+    component.set("clearSearch", () => {
+      component.set("searchTerm", "");
+      updateProperties();
+    });
 
     updateProperties();
 
