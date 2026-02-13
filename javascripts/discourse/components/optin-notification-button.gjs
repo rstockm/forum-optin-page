@@ -1,3 +1,19 @@
+/**
+ * OptinNotificationButton
+ *
+ * Glimmer component for category notification level selection (watch, track, mute, etc.).
+ * Uses Discourse d-icon helper for bell icons (works in component context).
+ *
+ * DISCOURSE CONVENTIONS:
+ * - @glimmer/component, @tracked, @action, @service
+ * - Uses category.setNotification() for persistence
+ * - Uses btn btn-default for button styling
+ *
+ * DEVIATION: Module-level activeDropdown variable
+ * Discourse typically avoids global/shared state. We use it to ensure only one
+ * dropdown is open at a time and to handle click-outside. Alternative would be
+ * a service or parent coordination; this keeps the component self-contained.
+ */
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
@@ -13,6 +29,7 @@ const LEVEL_DATA = [
   { id: 0, icon: "d-muted", label: "Stummgeschaltet" },
 ];
 
+/* DEVIATION: Shared state for single-dropdown rule. See file header. */
 let activeDropdown = null;
 
 export default class OptinNotificationButton extends Component {
@@ -88,12 +105,13 @@ export default class OptinNotificationButton extends Component {
     const levelId = parseInt(event.currentTarget.dataset.level, 10);
     this.close();
 
-    // Hauptkategorie aktualisieren
+    // Update parent category (Discourse category model API)
     if (this.category?.setNotification) {
       this.category.setNotification(levelId);
     }
 
-    // Unterkategorien aktualisieren (falls vorhanden)
+    // DEVIATION: Cascade to subcategories. Not standard Discourse behaviour;
+    // we extend it for "Ganze Kategorie" UX.
     if (this.args.children) {
       this.args.children.forEach((child) => {
         const childModel = child.model || child;
@@ -106,6 +124,7 @@ export default class OptinNotificationButton extends Component {
 
   willDestroy() {
     super.willDestroy(...arguments);
+    /* Cleanup: remove global listener and shared state reference */
     window.removeEventListener("click", this.outsideClick);
     if (activeDropdown === this) {
       activeDropdown = null;

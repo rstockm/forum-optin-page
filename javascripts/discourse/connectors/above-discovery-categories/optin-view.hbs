@@ -1,3 +1,10 @@
+{{!--
+  Opt-in View Template
+  Renders view switcher, search field, and category grid.
+  DEVIATION: Search icons use inline SVG with html-safe. d-icon does not render
+  in connector templates (different context). Discourse prefers d-icon; we use
+  inline SVG as fallback.
+--}}
 <div class="optin-controls">
   <nav class="optin-view-switcher" aria-label="Ansicht wechseln">
     <a href={{this.standardUrl}} 
@@ -16,6 +23,7 @@
 
   {{#if this.showOptinView}}
     <div class="optin-search-wrap">
+      {{! Inline SVG: d-icon unavailable in connector context }}
       <span class="optin-search-icon" aria-hidden="true">{{html-safe "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z\"/></svg>"}}</span>
       <input type="text" 
              value={{this.searchTerm}} 
@@ -42,20 +50,24 @@
         
         {{#if group.parent.description}}
           <div class="optin-card-description">
+            {{! html-safe: descriptions may contain Discourse markup }}
             {{html-safe group.parent.description}}
           </div>
         {{/if}}
 
         <div class="optin-parent-actions">
+          {{! @children: cascade notification level to all subcategories }}
           <OptinNotificationButton @category={{group.parent.model}} @children={{group.children}} @label="Ganze Kategorie" />
         </div>
 
         {{#if group.children.length}}
           <div class="optin-subcats-label">
+            {{! Plain Unicode chevron: d-icon "chevron-down" not used here for consistency with search icons }}
             <span class="optin-chevron">▼</span> UNTERKATEGORIEN
           </div>
           <div class="optin-subcats">
             {{#each group.children as |sub|}}
+              {{! data-notification-level: used by CSS for border color and sort order }}
               <span class="optin-chip" 
                     data-notification-level={{sub.model.notification_level}}
                     style={{html-safe (concat "border-color: #" sub.parentColor)}}>

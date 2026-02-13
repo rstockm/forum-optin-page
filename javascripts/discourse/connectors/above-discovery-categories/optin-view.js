@@ -1,3 +1,23 @@
+/**
+ * Opt-in View Connector
+ *
+ * Injects the category opt-in switcher and grid into the discovery.categories route
+ * via the above-discovery-categories plugin outlet.
+ *
+ * DISCOURSE CONVENTIONS:
+ * - Uses setupComponent (connector API)
+ * - Uses getURL from discourse-common for subfolder-safe URLs
+ * - Uses router.transitionTo for SPA navigation (no full reloads)
+ * - Uses site.categories for data (no extra API calls)
+ *
+ * DEVIATIONS:
+ * - document.body.classList manipulation: We add/remove "optin-mode" to toggle
+ *   visibility of default Discourse UI. Discourse typically avoids body class
+ *   injection from theme components; we do it for broad CSS scoping (.optin-mode).
+ *   Cleanup in willDestroyElement is required.
+ * - Actions via component.set(): Connectors use component.set("actionName", fn)
+ *   rather than class methods. This is the standard connector pattern.
+ */
 import { getOwner } from "@ember/application";
 import getURL from "discourse-common/lib/get-url";
 
@@ -17,6 +37,9 @@ export default {
       const siteService = owner && owner.lookup("service:site");
       const allCategories = (siteService && siteService.get("categories")) || [];
 
+      /**
+       * Build canonical category URL. Uses Discourse path format /c/slug/id.
+       */
       const getCategoryUrl = (cat) => {
         if (cat.url) return getURL(cat.url);
         let slug = cat.full_slug || cat.slug;
@@ -34,6 +57,11 @@ export default {
           .slice()
           .sort((a, b) => a.name.localeCompare(b.name));
 
+        /**
+         * Wrap raw category for template. Keeps .model (Ember object) for
+         * setNotification; adds display props. DEVIATION: We create POJOs
+         * for template convenience; Discourse typically passes models directly.
+         */
         const wrap = (cat, parentColor = null) => {
           return {
             model: cat,
@@ -57,6 +85,7 @@ export default {
 
       let filteredCategories = groupedCategories;
       if (searchTerm) {
+        /* Client-side filter: match parent/child name or description. */
         filteredCategories = groupedCategories
           .map((group) => {
             const parentMatch =
@@ -85,6 +114,7 @@ export default {
       });
 
       if (showOptinView) {
+        /* DEVIATION: Body class for broad CSS scoping. Must be removed in willDestroyElement. */
         document.body.classList.add("optin-mode");
       } else {
         document.body.classList.remove("optin-mode");
@@ -103,7 +133,7 @@ export default {
 
     updateProperties();
 
-    // Listen for transitions to update the view without full reload
+    // Listen for route changes to update view state without full reload
     if (router) {
       router.on("routeDidChange", updateProperties);
     }
@@ -136,6 +166,7 @@ export default {
         if (router) {
           router.off("routeDidChange", updateProperties);
         }
+        /* Required cleanup: remove body class added by this connector */
         document.body.classList.remove("optin-mode");
       },
     });

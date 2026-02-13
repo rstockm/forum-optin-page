@@ -1,3 +1,18 @@
+/**
+ * Opt-in View Styles
+ *
+ * Uses Discourse CSS variables (--primary, --tertiary, etc.) for theme compatibility.
+ * Uses --d-border-radius where available.
+ *
+ * DEVIATIONS:
+ * - .optin-mode scoped to body: Hides default Discourse category list. We use
+ *   !important to override Discourse core styles; avoid expanding this pattern.
+ * - Input overrides: Search input uses !important to remove Discourse default
+ *   borders/shadows that cause "double border". Prefer targeting without !important
+ *   when Discourse updates allow.
+ * - :has() selector: Used for chip z-index. Good browser support; no Discourse
+ *   equivalent. Fallback not provided.
+ */
 .optin-mode {
   .category-list,
   .categories-and-latest,
@@ -10,8 +25,8 @@
 
 }
 
-/* ---- View-Schalter & Suche ---- */
-/* Gemeinsame Höhe für alle Steuerelemente (Discourse-konform) */
+/* ---- View Switcher & Search ---- */
+/* Shared height for all controls. Follows Discourse form control sizing. */
 $optin-control-height: 38px;
 
 .optin-controls {
@@ -54,8 +69,8 @@ $optin-control-height: 38px;
   }
 }
 
-/* Suchfeld: Flex-Layout (Icon + Input + Clear als Geschwister)
-   → Text überlagert nie die Lupe (Best Practice) */
+/* Search field: Flex layout (icon + input + clear as siblings).
+   Text never overlaps icon. Standard pattern for search inputs. */
 .optin-search-wrap {
   display: inline-flex;
   align-items: stretch;
@@ -85,6 +100,8 @@ $optin-control-height: 38px;
 }
 
 .optin-search-wrap .optin-search-input {
+  /* DEVIATION: !important to override Discourse input styles that add
+     default borders/shadows (causes "double border"). Remove when feasible. */
   flex: 1;
   min-width: 0;
   height: 100%;
@@ -121,6 +138,12 @@ $optin-control-height: 38px;
   }
 }
 
+.optin-search-wrap:focus-within {
+  border-color: var(--tertiary);
+  box-shadow: 0 0 0 2px var(--tertiary-low);
+}
+
+/* Redundant overrides for focus-within. Discourse may add input focus styles. */
 .optin-search-wrap:focus-within .optin-search-input,
 .optin-search-wrap .optin-search-input:focus {
   border: none !important;
@@ -380,11 +403,12 @@ $optin-control-height: 38px;
   backface-visibility: hidden;
   position: relative;
 
+  /* DEVIATION: :has() for z-index when dropdown open. Modern browsers only. */
   &:has(.is-dropdown-open) {
     z-index: 1010;
   }
   
-  /* Animation beim Statuswechsel */
+  /* Fade animation on status change. order + flex handles repositioning. */
   animation: optin-chip-fade 0.5s ease-out;
 
   &:hover {
@@ -394,8 +418,9 @@ $optin-control-height: 38px;
 
   &[data-notification-level="0"] {
     border-color: var(--primary-low, #e5e5e5) !important;
-    order: 2; /* Muted: Hinten */
+    order: 2; /* Muted: move to end of flex row */
     
+    /* Opacity on children only; avoids affecting dropdown (sibling of chip) */
     .optin-category-link,
     .optin-info-icon,
     .optin-notification-btn {
