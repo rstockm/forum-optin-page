@@ -58,7 +58,7 @@ $optin-control-height: 38px;
    → Text überlagert nie die Lupe (Best Practice) */
 .optin-search-wrap {
   display: inline-flex;
-  align-items: center;
+  align-items: stretch;
   flex: 0 1 280px;
   min-width: 180px;
   height: $optin-control-height;
@@ -89,12 +89,16 @@ $optin-control-height: 38px;
   min-width: 0;
   height: 100%;
   padding: 0 0.5rem;
-  border: none;
+  margin: 0;
+  border: none !important;
   background: transparent;
   color: var(--primary);
   font-size: var(--font-down-1);
-  line-height: 1;
+  font-family: inherit;
+  line-height: 38px; /* = control height, für vertikale Textzentrierung */
   box-sizing: border-box;
+  -webkit-appearance: none;
+  appearance: none;
 
   &::placeholder {
     color: var(--primary-medium);
@@ -102,6 +106,7 @@ $optin-control-height: 38px;
 
   &:focus {
     outline: none;
+    box-shadow: none;
   }
 }
 
