@@ -59,11 +59,12 @@
   pointer-events: none;
   z-index: 5;
   display: flex;
+  align-items: center;
 
-  .d-icon {
+  svg {
     width: 14px;
     height: 14px;
-    display: block;
+    flex-shrink: 0;
   }
 }
 
@@ -79,15 +80,16 @@
   cursor: pointer;
   z-index: 5;
   display: flex;
+  align-items: center;
   
   &:hover {
     color: var(--primary);
   }
 
-  .d-icon {
+  svg {
     width: 14px;
     height: 14px;
-    display: block;
+    flex-shrink: 0;
   }
 }
 
