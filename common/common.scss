@@ -12,6 +12,10 @@
  *   when Discourse updates allow.
  * - :has() selector: Used for chip z-index. Good browser support; no Discourse
  *   equivalent. Fallback not provided.
+ *
+ * NOTE: This file is larger than 400 lines. Split into controls, notification
+ * button, and card/chip modules once the target Discourse theme build pipeline
+ * is confirmed to load local SCSS partials reliably.
  */
 .optin-mode {
   .category-list,
@@ -136,11 +140,6 @@ $optin-control-height: 38px;
   &::-webkit-search-cancel-button {
     display: none;
   }
-}
-
-.optin-search-wrap:focus-within {
-  border-color: var(--tertiary);
-  box-shadow: 0 0 0 2px var(--tertiary-low);
 }
 
 /* Redundant overrides for focus-within. Discourse may add input focus styles. */
