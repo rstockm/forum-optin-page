@@ -60,7 +60,7 @@ Signed-in users see a notification button for categories and subcategories. The 
 - `Normal`
 - `Muted`
 
-For parent categories, there is an additional `Ganze Kategorie` button. This action applies the selected notification level to the parent category and all direct subcategories below it.
+For parent categories, there is an additional whole-category action button. Its default English label is `Whole category`; the label is localized and can be overridden through Theme Component settings. This action applies the selected notification level to the parent category and all direct subcategories below it.
 
 Users who are not signed in do not see notification buttons.
 
@@ -109,6 +109,10 @@ javascripts/discourse/
   connectors/
     above-discovery-categories/
       optin-view.gjs
+locales/
+  de.yml
+  en.yml
+settings.yml
 ```
 
 ### Discourse Integration
@@ -191,12 +195,47 @@ The supported levels are:
 
 ### Cascading for Parent Categories
 
-The `Ganze Kategorie` button applies the notification level to:
+The whole-category action button applies the notification level to:
 
 - the parent category
 - all direct subcategories below it
 
 This is intentional custom behavior and not a standard Discourse feature.
+
+### Internationalization and Theme Settings
+
+All user-visible static labels are defined through Discourse theme translations in:
+
+```text
+locales/en.yml
+locales/de.yml
+```
+
+The `.gjs` files access these labels through Discourse's theme translation prefix mechanism:
+
+```js
+i18n(themePrefix("standard_label"))
+```
+
+Every visible static label also has a matching Theme Component setting in:
+
+```text
+settings.yml
+```
+
+Settings default to an empty string. An empty setting means: use the localized default from `locales/{locale}.yml`. If an administrator enters a value in the Theme Component settings, that value overrides the localized default.
+
+Configurable labels include:
+
+- view switcher aria label
+- `Standard` label and title
+- `Opt-in` label and title
+- search placeholder and aria label
+- clear search title and aria label
+- whole category action label
+- subcategories heading
+- info icon text
+- all notification level labels
 
 ## Security Notes
 
@@ -252,8 +291,9 @@ These points are especially relevant for code reviewers:
 - `common/common.scss` intentionally uses `!important` to override Discourse core styles.
 - `common/common.scss` is larger than 400 lines. A later split into SCSS modules is useful once the target environment reliably confirms how local SCSS partials are loaded in this Theme Component.
 - `optin-notification-button.gjs` uses a module-level `activeDropdown` variable so only one dropdown remains open at a time.
-- `Ganze Kategorie` cascades notification changes to direct subcategories.
+- The whole-category action cascades notification changes to direct subcategories.
 - Search runs fully client-side on `site.categories`.
+- User-visible static labels are loaded through theme translations and may be overridden through Theme Component settings.
 
 ## Review Guide for External Companies
 
@@ -268,7 +308,7 @@ The goal of an external review should be to assess production readiness as a Dis
 - Does search work for category names and description text?
 - Are parent categories and subcategories grouped correctly?
 - Does a subcategory button affect only that subcategory?
-- Does `Ganze Kategorie` affect the parent category and all direct subcategories?
+- Does the whole-category action affect the parent category and all direct subcategories?
 - Are notification buttons visible only to signed-in users?
 
 ### Technical Review Points
@@ -276,6 +316,9 @@ The goal of an external review should be to assess production readiness as a Dis
 - Is the `.gjs` connector compatible with current Discourse conventions?
 - Is the import path to `OptinNotificationButton` correct?
 - Is the use of `@service router` and `@service site` compatible with the target Discourse version?
+- Are theme translations loaded correctly from `locales/en.yml` and `locales/de.yml`?
+- Do empty Theme Component settings fall back to localized defaults?
+- Do non-empty Theme Component settings override the localized labels?
 - Is the `routeDidChange` listener reliably removed?
 - Is the `optin-mode` body class reliably removed when the component is destroyed?
 - Are there unwanted side effects from `.optin-mode` and `!important`?
@@ -312,7 +355,7 @@ The goal of an external review should be to assess production readiness as a Dis
 7. Check whether the URL contains `show_optin=true`.
 8. Test the search field.
 9. Change the notification level of a subcategory.
-10. Change the notification level through `Ganze Kategorie`.
+10. Change the notification level through the whole-category action.
 11. Reload the page and verify that the state remains consistent.
 12. Check as a signed-out user that no notification buttons are visible.
 13. Check the browser console for JavaScript errors.

@@ -4,6 +4,7 @@ import { action } from "@ember/object";
 import { service } from "@ember/service";
 import { on } from "@ember/modifier";
 import { htmlSafe } from "@ember/template";
+import { i18n } from "discourse-i18n";
 import getURL from "discourse-common/lib/get-url";
 import OptinNotificationButton from "../../components/optin-notification-button";
 
@@ -16,6 +17,15 @@ function readCategoryValue(category, key) {
 function safeCategoryColor(color) {
   const value = typeof color === "string" ? color.replace(/^#/, "") : "";
   return HEX_COLOR.test(value) ? value : "999999";
+}
+
+function configuredText(settingName, translationKey) {
+  const settingValue =
+    typeof themeSetting !== "undefined" ? themeSetting[settingName] : null;
+  const trimmedValue =
+    typeof settingValue === "string" ? settingValue.trim() : settingValue;
+
+  return trimmedValue || i18n(themePrefix(translationKey));
 }
 
 export default class OptinView extends Component {
@@ -48,6 +58,54 @@ export default class OptinView extends Component {
 
   get standardUrl() {
     return getURL("/categories");
+  }
+
+  get viewSwitcherAriaLabel() {
+    return configuredText("view_switcher_aria_label", "view_switcher_aria_label");
+  }
+
+  get standardLabel() {
+    return configuredText("standard_label", "standard_label");
+  }
+
+  get standardTitle() {
+    return configuredText("standard_title", "standard_title");
+  }
+
+  get optinLabel() {
+    return configuredText("optin_label", "optin_label");
+  }
+
+  get optinTitle() {
+    return configuredText("optin_title", "optin_title");
+  }
+
+  get searchPlaceholder() {
+    return configuredText("search_placeholder", "search_placeholder");
+  }
+
+  get searchAriaLabel() {
+    return configuredText("search_aria_label", "search_aria_label");
+  }
+
+  get clearSearchTitle() {
+    return configuredText("clear_search_title", "clear_search_title");
+  }
+
+  get clearSearchAriaLabel() {
+    return configuredText("clear_search_aria_label", "clear_search_aria_label");
+  }
+
+  get wholeCategoryLabel() {
+    return configuredText("whole_category_label", "whole_category_label");
+  }
+
+  get subcategoriesLabel() {
+    return configuredText("subcategories_label", "subcategories_label");
+  }
+
+  get infoIconLabel() {
+    return configuredText("info_icon_label", "info_icon_label");
   }
 
   get allCategories() {
@@ -202,22 +260,22 @@ export default class OptinView extends Component {
 
   <template>
     <div class="optin-controls">
-      <nav class="optin-view-switcher" aria-label="Ansicht wechseln">
+      <nav class="optin-view-switcher" aria-label={{this.viewSwitcherAriaLabel}}>
         <a
           href={{this.standardUrl}}
           class="optin-view-link {{unless this.showOptinView "active"}}"
-          title="Standard-Ansicht"
+          title={{this.standardTitle}}
           {{on "click" this.switchToStandard}}
         >
-          Standard
+          {{this.standardLabel}}
         </a>
         <a
           href={{this.optinUrl}}
           class="optin-view-link {{if this.showOptinView "active"}}"
-          title="Opt-in-Ansicht"
+          title={{this.optinTitle}}
           {{on "click" this.switchToOptin}}
         >
-          Opt-in
+          {{this.optinLabel}}
         </a>
       </nav>
 
@@ -237,9 +295,9 @@ export default class OptinView extends Component {
           <input
             type="text"
             value={{this.searchTerm}}
-            placeholder="Kategorien filtern"
+            placeholder={{this.searchPlaceholder}}
             class="optin-search-input"
-            aria-label="Kategorien filtern"
+            aria-label={{this.searchAriaLabel}}
             {{on "input" this.onSearchTermChange}}
           />
           {{#if this.searchTerm}}
@@ -247,8 +305,8 @@ export default class OptinView extends Component {
               type="button"
               class="optin-search-clear"
               {{on "click" this.clearSearch}}
-              title="Suche löschen"
-              aria-label="Suche löschen"
+              title={{this.clearSearchTitle}}
+              aria-label={{this.clearSearchAriaLabel}}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -286,14 +344,14 @@ export default class OptinView extends Component {
               <OptinNotificationButton
                 @category={{group.parent.model}}
                 @children={{group.children}}
-                @label="Ganze Kategorie"
+                @label={{this.wholeCategoryLabel}}
               />
             </div>
 
             {{#if group.children.length}}
               <div class="optin-subcats-label">
                 <span class="optin-chevron">▼</span>
-                UNTERKATEGORIEN
+                {{this.subcategoriesLabel}}
               </div>
               <div class="optin-subcats">
                 {{#each group.children as |sub|}}
@@ -306,7 +364,7 @@ export default class OptinView extends Component {
 
                     {{#if sub.description}}
                       <span class="optin-info-icon">
-                        <span class="optin-info-i">i</span>
+                        <span class="optin-info-i">{{this.infoIconLabel}}</span>
                         <div class="optin-info-tooltip">
                           {{sub.description}}
                         </div>

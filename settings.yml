@@ -1,0 +1,67 @@
+view_switcher_aria_label:
+  default: ""
+  type: string
+
+standard_label:
+  default: ""
+  type: string
+
+standard_title:
+  default: ""
+  type: string
+
+optin_label:
+  default: ""
+  type: string
+
+optin_title:
+  default: ""
+  type: string
+
+search_placeholder:
+  default: ""
+  type: string
+
+search_aria_label:
+  default: ""
+  type: string
+
+clear_search_title:
+  default: ""
+  type: string
+
+clear_search_aria_label:
+  default: ""
+  type: string
+
+whole_category_label:
+  default: ""
+  type: string
+
+subcategories_label:
+  default: ""
+  type: string
+
+info_icon_label:
+  default: ""
+  type: string
+
+level_watching_label:
+  default: ""
+  type: string
+
+level_tracking_label:
+  default: ""
+  type: string
+
+level_watching_first_label:
+  default: ""
+  type: string
+
+level_normal_label:
+  default: ""
+  type: string
+
+level_muted_label:
+  default: ""
+  type: string

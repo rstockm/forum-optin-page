@@ -19,15 +19,50 @@ import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { service } from "@ember/service";
 import { on } from "@ember/modifier";
+import { i18n } from "discourse-i18n";
 import icon from "discourse-common/helpers/d-icon";
 
 const LEVEL_DATA = [
-  { id: 3, icon: "d-watching", label: "Beobachten" },
-  { id: 2, icon: "d-tracking", label: "Verfolgen" },
-  { id: 4, icon: "d-watching-first", label: "Ersten Beitrag beobachten" },
-  { id: 1, icon: "d-regular", label: "Normal" },
-  { id: 0, icon: "d-muted", label: "Stummgeschaltet" },
+  {
+    id: 3,
+    icon: "d-watching",
+    settingName: "level_watching_label",
+    translationKey: "level_watching_label",
+  },
+  {
+    id: 2,
+    icon: "d-tracking",
+    settingName: "level_tracking_label",
+    translationKey: "level_tracking_label",
+  },
+  {
+    id: 4,
+    icon: "d-watching-first",
+    settingName: "level_watching_first_label",
+    translationKey: "level_watching_first_label",
+  },
+  {
+    id: 1,
+    icon: "d-regular",
+    settingName: "level_normal_label",
+    translationKey: "level_normal_label",
+  },
+  {
+    id: 0,
+    icon: "d-muted",
+    settingName: "level_muted_label",
+    translationKey: "level_muted_label",
+  },
 ];
+
+function configuredText(settingName, translationKey) {
+  const settingValue =
+    typeof themeSetting !== "undefined" ? themeSetting[settingName] : null;
+  const trimmedValue =
+    typeof settingValue === "string" ? settingValue.trim() : settingValue;
+
+  return trimmedValue || i18n(themePrefix(translationKey));
+}
 
 /* DEVIATION: Shared state for single-dropdown rule. See file header. */
 let activeDropdown = null;
@@ -49,8 +84,8 @@ export default class OptinNotificationButton extends Component {
 
   get currentLevelInfo() {
     return (
-      LEVEL_DATA.find((l) => l.id === this.notificationLevel) ||
-      LEVEL_DATA.find((l) => l.id === 1)
+      this.levels.find((l) => l.id === this.notificationLevel) ||
+      this.levels.find((l) => l.id === 1)
     );
   }
 
@@ -58,6 +93,7 @@ export default class OptinNotificationButton extends Component {
     const current = this.notificationLevel;
     return LEVEL_DATA.map((l) => ({
       ...l,
+      label: configuredText(l.settingName, l.translationKey),
       selected: l.id === current,
       cssClass:
         "optin-notification-dropdown-item" +
@@ -111,7 +147,7 @@ export default class OptinNotificationButton extends Component {
     }
 
     // DEVIATION: Cascade to subcategories. Not standard Discourse behaviour;
-    // we extend it for "Ganze Kategorie" UX.
+    // we extend it for the whole-category action.
     if (this.args.children) {
       this.args.children.forEach((child) => {
         const childModel = child.model || child;
