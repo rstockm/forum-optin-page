@@ -1,101 +1,101 @@
 # forum-optin-page
 
-Discourse Theme Component für eine alternative Kategorie-Übersicht mit Opt-in-Steuerung für Kategorie-Benachrichtigungen.
+Discourse Theme Component for an alternative category overview with opt-in controls for category notification levels.
 
-Das Component erweitert die Discourse-Kategorieseite um eine umschaltbare Opt-in-Ansicht. In dieser Ansicht werden Hauptkategorien als Karten und Unterkategorien als Chips dargestellt. Angemeldete Nutzer können dort ihre Benachrichtigungsstufe für einzelne Kategorien oder für eine ganze Hauptkategorie inklusive Unterkategorien setzen.
+This component extends the Discourse categories page with a switchable opt-in view. In this view, parent categories are displayed as cards and subcategories as chips. Signed-in users can set their notification level for individual categories or for an entire parent category including its direct subcategories.
 
-## Wichtiger Hinweis zur Sichtbarkeit
+## Important Visibility Note
 
-Der Opt-in Button bzw. Umschalter ist nur auf der Discourse-Kategorieseite sichtbar.
+The opt-in button or view switcher is only visible on the Discourse categories page.
 
-Damit Nutzer den Button direkt auf der Startseite sehen, muss in den Nutzereinstellungen als Startseite `Kategorie` aktiviert sein. Die relevante Zielseite ist die Kategorien-URL, zum Beispiel:
+For users to see the button directly on their homepage, their user setting for the homepage must be set to `Categories`. The relevant target page is the categories URL, for example:
 
 https://d3o.wolkenbar.de/categories
 
-Wenn ein Nutzer eine andere Startseite verwendet, zum Beispiel `Latest` oder eine Topic-Liste, erscheint der Opt-in Button dort nicht. In diesem Fall muss der Nutzer manuell zur Kategorienseite wechseln.
+If a user has configured a different homepage, such as `Latest` or a topic list, the opt-in button will not appear there. In that case, the user must navigate to the categories page manually.
 
-## Nutzer-Dokumentation
+## User Documentation
 
-### Zweck
+### Purpose
 
-Das Component soll Nutzern eine einfachere Übersicht über abonnierbare Kategorien geben. Statt die Standard-Kategorieliste einzeln zu durchsuchen, können sie Kategorien und Unterkategorien in einer kompakten Opt-in-Ansicht sehen und Benachrichtigungen direkt setzen.
+The component gives users a simpler overview of subscribable categories. Instead of searching through the standard category list, users can view categories and subcategories in a compact opt-in view and set notification levels directly.
 
-### Ansicht wechseln
+### Switching Views
 
-Auf der Kategorienseite erscheint oberhalb der normalen Kategorieliste ein Umschalter:
+On the categories page, a switcher appears above the standard category list:
 
-- `Standard`: zeigt die normale Discourse-Kategorieansicht.
-- `Opt-in`: zeigt die alternative Opt-in-Ansicht.
+- `Standard`: shows the normal Discourse category view.
+- `Opt-in`: shows the alternative opt-in view.
 
-Technisch wird die Opt-in-Ansicht über den Query-Parameter `show_optin=true` aktiviert:
+Technically, the opt-in view is activated through the `show_optin=true` query parameter:
 
 ```text
 /categories?show_optin=true
 ```
 
-Die Standardansicht wird über die normale Kategorien-URL aufgerufen:
+The standard view is loaded through the normal categories URL:
 
 ```text
 /categories
 ```
 
-### Kategorien filtern
+### Filtering Categories
 
-In der Opt-in-Ansicht steht ein Suchfeld zur Verfügung. Die Suche filtert clientseitig nach:
+The opt-in view includes a search field. The search runs client-side and filters by:
 
-- Name der Hauptkategorie
-- Beschreibung der Hauptkategorie
-- Name der Unterkategorie
-- Beschreibung der Unterkategorie
+- Parent category name
+- Parent category description
+- Subcategory name
+- Subcategory description
 
-Es werden keine zusätzlichen API-Requests ausgelöst.
+No additional API requests are triggered.
 
-### Benachrichtigungen setzen
+### Setting Notifications
 
-Angemeldete Nutzer sehen an Kategorien und Unterkategorien einen Benachrichtigungsbutton. Über das Dropdown kann eine der Discourse-Benachrichtigungsstufen ausgewählt werden:
+Signed-in users see a notification button for categories and subcategories. The dropdown allows them to select one of the Discourse notification levels:
 
-- `Beobachten`
-- `Verfolgen`
-- `Ersten Beitrag beobachten`
+- `Watching`
+- `Tracking`
+- `Watching first post`
 - `Normal`
-- `Stummgeschaltet`
+- `Muted`
 
-Bei Hauptkategorien gibt es zusätzlich den Button `Ganze Kategorie`. Diese Aktion setzt die gewählte Benachrichtigungsstufe auf die Hauptkategorie und alle direkt darunterliegenden Unterkategorien.
+For parent categories, there is an additional `Ganze Kategorie` button. This action applies the selected notification level to the parent category and all direct subcategories below it.
 
-Nicht angemeldete Nutzer sehen die Benachrichtigungsbuttons nicht.
+Users who are not signed in do not see notification buttons.
 
 ## Installation
 
-Das Repository ist als Discourse Theme Component aufgebaut.
+This repository is structured as a Discourse Theme Component.
 
 In Discourse:
 
-1. Adminbereich öffnen.
-2. `Anpassen` / `Themes` öffnen.
-3. Neues Theme Component aus GitHub importieren.
-4. Repository-URL verwenden:
+1. Open the admin area.
+2. Open `Customize` / `Themes`.
+3. Import a new Theme Component from GitHub.
+4. Use this repository URL:
 
 ```text
 https://github.com/rstockm/forum-optin-page
 ```
 
-5. Component einem aktiven Theme hinzufügen.
-6. Theme aktualisieren.
-7. Kategorienseite öffnen:
+5. Add the component to an active theme.
+6. Update the theme.
+7. Open the categories page:
 
 ```text
 /categories
 ```
 
-8. Optional direkt die Opt-in-Ansicht testen:
+8. Optionally test the opt-in view directly:
 
 ```text
 /categories?show_optin=true
 ```
 
-## Technische Übersicht
+## Technical Overview
 
-### Dateistruktur
+### File Structure
 
 ```text
 about.json
@@ -111,220 +111,220 @@ javascripts/discourse/
       optin-view.gjs
 ```
 
-### Discourse-Integration
+### Discourse Integration
 
-Das Component nutzt den Plugin Outlet:
+The component uses this plugin outlet:
 
 ```text
 above-discovery-categories
 ```
 
-Dieser Outlet liegt auf der Discourse-Kategorieseite oberhalb der Kategorieansicht. Deshalb ist die Funktion an die Kategorienseite gebunden.
+This outlet is located on the Discourse categories page above the category view. This is why the feature is tied to the categories page.
 
-Die zentrale Connector-Datei ist:
+The main connector file is:
 
 ```text
 javascripts/discourse/connectors/above-discovery-categories/optin-view.gjs
 ```
 
-Der Connector ist als moderne `.gjs` Glimmer-Komponente umgesetzt. Die frühere klassische Struktur aus `.hbs` und `.js` wurde entfernt.
+The connector is implemented as a modern `.gjs` Glimmer component. The previous classic `.hbs` plus `.js` structure has been removed.
 
-### Datenquelle
+### Data Source
 
-Die Kategorien werden aus dem Discourse-Service `site` gelesen:
+Categories are read from the Discourse `site` service:
 
 ```js
 @service site;
 ```
 
-Die Kategorie-Liste wird aus `site.categories` abgeleitet. Es gibt keine eigenen Backend-Endpunkte und keine zusätzlichen Netzwerk-Requests.
+The category list is derived from `site.categories`. There are no custom backend endpoints and no additional network requests.
 
 ### Routing
 
-Die Ansicht verwendet Discourse SPA-Navigation über den Router-Service:
+The view uses Discourse SPA navigation through the router service:
 
 ```js
 @service router;
 ```
 
-Die Umschaltung zwischen Standard- und Opt-in-Ansicht erfolgt über:
+Switching between the standard and opt-in views uses:
 
 ```text
 /categories
 /categories?show_optin=true
 ```
 
-Der Query-Parameter `show_optin=true` aktiviert die Opt-in-Ansicht.
+The `show_optin=true` query parameter activates the opt-in view.
 
-### UI-Logik
+### UI Logic
 
-Die Opt-in-Ansicht gruppiert Kategorien nach:
+The opt-in view groups categories by:
 
-- Hauptkategorien: Kategorien ohne `parent_category_id`
-- Unterkategorien: Kategorien mit `parent_category_id`
+- Parent categories: categories without `parent_category_id`
+- Subcategories: categories with `parent_category_id`
 
-Unterkategorien werden alphabetisch nach Name sortiert.
+Subcategories are sorted alphabetically by name.
 
-Für die Template-Ausgabe werden Kategorie-Modelle in einfache View-Objekte gewrappt. Das Originalmodell bleibt unter `model` erhalten, damit Discourse APIs wie `setNotification()` weiter genutzt werden können.
+For template output, category models are wrapped in simple view objects. The original model remains available under `model`, so Discourse APIs such as `setNotification()` can still be used.
 
-### Benachrichtigungs-API
+### Notification API
 
-Die Komponente `optin-notification-button.gjs` nutzt die vorhandene Discourse-Kategorie-API:
+The `optin-notification-button.gjs` component uses the existing Discourse category API:
 
 ```js
 category.setNotification(levelId);
 ```
 
-Es werden keine eigenen Schreib-Endpunkte implementiert.
+No custom write endpoints are implemented.
 
-Die unterstützten Level sind:
+The supported levels are:
 
 ```js
 [
-  { id: 3, label: "Beobachten" },
-  { id: 2, label: "Verfolgen" },
-  { id: 4, label: "Ersten Beitrag beobachten" },
+  { id: 3, label: "Watching" },
+  { id: 2, label: "Tracking" },
+  { id: 4, label: "Watching first post" },
   { id: 1, label: "Normal" },
-  { id: 0, label: "Stummgeschaltet" },
+  { id: 0, label: "Muted" },
 ]
 ```
 
-### Cascading für Hauptkategorien
+### Cascading for Parent Categories
 
-Der Button `Ganze Kategorie` setzt die Benachrichtigungsstufe auf:
+The `Ganze Kategorie` button applies the notification level to:
 
-- die Hauptkategorie
-- alle direkt darunterliegenden Unterkategorien
+- the parent category
+- all direct subcategories below it
 
-Das ist bewusstes Custom-Verhalten und keine Standardfunktion von Discourse.
+This is intentional custom behavior and not a standard Discourse feature.
 
-## Security-Hinweise
+## Security Notes
 
-### Kategorie-Beschreibungen
+### Category Descriptions
 
-Kategorie-Beschreibungen werden nicht als raw HTML gerendert.
+Category descriptions are not rendered as raw HTML.
 
-Die Ausgabe bevorzugt:
+Output prefers:
 
 ```text
 description_text
 description_excerpt
 ```
 
-Raw `description` wird nicht mit `htmlSafe()` ausgegeben. Dadurch wird vermieden, dass HTML aus Kategorie-Beschreibungen ungeprüft in die Opt-in-Ansicht gelangt.
+Raw `description` is not rendered with `htmlSafe()`. This avoids injecting unchecked HTML from category descriptions into the opt-in view.
 
 ### Inline-Styles
 
-Kategorie-Farben werden vor der Nutzung validiert. Zulässig sind nur sechsstellige Hex-Farben:
+Category colors are validated before use. Only six-digit hex colors are allowed:
 
 ```js
 /^[0-9a-fA-F]{6}$/
 ```
 
-Ungültige Werte fallen auf `999999` zurück.
+Invalid values fall back to `999999`.
 
-Für Style-Bindings wird `htmlSafe()` nur auf lokal zusammengesetzte Strings aus validierten Farben angewendet:
+For style bindings, `htmlSafe()` is only applied to locally constructed strings based on validated colors:
 
 ```js
 htmlSafe(`border-left-color: #${color}`)
 htmlSafe(`border-color: #${inheritedColor}`)
 ```
 
-`htmlSafe()` wird nicht für Nutzertexte, Kategorie-Beschreibungen oder SVG-Strings verwendet.
+`htmlSafe()` is not used for user text, category descriptions, or SVG strings.
 
-### Externe Ressourcen
+### External Resources
 
-Das Component lädt keine externen Skripte, Fonts oder Assets nach.
+The component does not load external scripts, fonts, or assets.
 
 ### Secrets und Tokens
 
-Das Component enthält keine API-Keys, Secrets, Tokens oder Zugangsdaten.
+The component does not contain API keys, secrets, tokens, or credentials.
 
 ### CSP
 
-Es werden keine eigenen CSP-Erweiterungen in `about.json` definiert. Das Component verlässt sich auf die reguläre Discourse-CSP.
+No custom CSP extensions are defined in `about.json`. The component relies on the regular Discourse CSP.
 
-## Bewusste technische Abweichungen
+## Intentional Technical Deviations
 
-Diese Punkte sind für Code-Reviewer besonders relevant:
+These points are especially relevant for code reviewers:
 
-- `document.body.classList.toggle("optin-mode")` wird verwendet, um die Standard-Kategorieliste in der Opt-in-Ansicht per CSS auszublenden.
-- `common/common.scss` nutzt gezielt `!important`, um Discourse-Core-Styles zu übersteuern.
-- `common/common.scss` ist größer als 400 Zeilen. Eine spätere Aufteilung in SCSS-Module ist sinnvoll, sobald die Zielumgebung zuverlässig bestätigt, wie lokale SCSS-Partials in diesem Theme Component geladen werden.
-- `optin-notification-button.gjs` nutzt eine modulweite Variable `activeDropdown`, damit immer nur ein Dropdown geöffnet bleibt.
-- `Ganze Kategorie` kaskadiert Benachrichtigungsänderungen auf direkte Unterkategorien.
-- Die Suche läuft rein clientseitig auf `site.categories`.
+- `document.body.classList.toggle("optin-mode")` is used to hide the standard category list with CSS in the opt-in view.
+- `common/common.scss` intentionally uses `!important` to override Discourse core styles.
+- `common/common.scss` is larger than 400 lines. A later split into SCSS modules is useful once the target environment reliably confirms how local SCSS partials are loaded in this Theme Component.
+- `optin-notification-button.gjs` uses a module-level `activeDropdown` variable so only one dropdown remains open at a time.
+- `Ganze Kategorie` cascades notification changes to direct subcategories.
+- Search runs fully client-side on `site.categories`.
 
-## Review-Leitfaden für externe Firmen
+## Review Guide for External Companies
 
-Ziel eines externen Reviews sollte sein, die Produktionsreife als Discourse Theme Component zu bewerten.
+The goal of an external review should be to assess production readiness as a Discourse Theme Component.
 
-### Funktionale Prüfpunkte
+### Functional Review Points
 
-- Wird der Umschalter auf `/categories` angezeigt?
-- Wird er nur auf der Kategorienseite erwartet und nicht auf anderen Startseiten?
-- Funktioniert `/categories?show_optin=true`?
-- Blendet die Opt-in-Ansicht die Standard-Kategorieliste korrekt aus?
-- Funktioniert die Suche nach Kategorie- und Beschreibungstexten?
-- Werden Hauptkategorien und Unterkategorien korrekt gruppiert?
-- Setzt der Button einer Unterkategorie nur diese Unterkategorie?
-- Setzt `Ganze Kategorie` die Hauptkategorie und alle direkten Unterkategorien?
-- Sind Benachrichtigungsbuttons nur für angemeldete Nutzer sichtbar?
+- Is the switcher displayed on `/categories`?
+- Is it expected only on the categories page and not on other homepages?
+- Does `/categories?show_optin=true` work?
+- Does the opt-in view correctly hide the standard category list?
+- Does search work for category names and description text?
+- Are parent categories and subcategories grouped correctly?
+- Does a subcategory button affect only that subcategory?
+- Does `Ganze Kategorie` affect the parent category and all direct subcategories?
+- Are notification buttons visible only to signed-in users?
 
-### Technische Prüfpunkte
+### Technical Review Points
 
-- Ist der `.gjs` Connector mit aktuellen Discourse-Konventionen kompatibel?
-- Ist der Importpfad zu `OptinNotificationButton` korrekt?
-- Ist die Nutzung von `@service router` und `@service site` für die Zielversion von Discourse kompatibel?
-- Wird der `routeDidChange` Listener zuverlässig entfernt?
-- Wird die Body-Klasse `optin-mode` zuverlässig entfernt, wenn die Komponente zerstört wird?
-- Gibt es unerwünschte Nebeneffekte durch `.optin-mode` und `!important`?
-- Sind die CSS-Selektoren ausreichend eng scoped?
-- Funktioniert `:has()` in den von Discourse unterstützten Browsern der Zielumgebung?
+- Is the `.gjs` connector compatible with current Discourse conventions?
+- Is the import path to `OptinNotificationButton` correct?
+- Is the use of `@service router` and `@service site` compatible with the target Discourse version?
+- Is the `routeDidChange` listener reliably removed?
+- Is the `optin-mode` body class reliably removed when the component is destroyed?
+- Are there unwanted side effects from `.optin-mode` and `!important`?
+- Are the CSS selectors scoped narrowly enough?
+- Does `:has()` work in the browsers supported by the target Discourse environment?
 
-### Security-Prüfpunkte
+### Security Review Points
 
-- Keine raw HTML-Ausgabe von Kategorie-Beschreibungen.
-- Keine Verwendung von `htmlSafe()` für Nutzer- oder Admin-Texte.
-- Inline-Styles nur mit validierten Hex-Farben.
-- Keine externen Skripte.
-- Keine Secrets oder Tokens im Repository.
-- Keine eigenen API-Calls, die CSRF- oder Berechtigungsfragen eröffnen.
+- No raw HTML output for category descriptions.
+- No use of `htmlSafe()` for user or admin text.
+- Inline styles only with validated hex colors.
+- No external scripts.
+- No secrets or tokens in the repository.
+- No custom API calls that would introduce CSRF or authorization concerns.
 
-### Kompatibilitäts-Prüfpunkte
+### Compatibility Review Points
 
-- Test mit aktueller Discourse-Version.
-- Test mit aktivierter und deaktivierter Anmeldung.
-- Test mit Kategorien ohne Beschreibung.
-- Test mit Kategorien ohne Unterkategorien.
-- Test mit vielen Kategorien und Unterkategorien.
-- Test mit Discourse in Subfolder-Installationen, weil URLs über `getURL()` erzeugt werden.
-- Test mit unterschiedlichen Theme-Farben, Hell-/Dunkelmodus und responsiven Viewports.
+- Test with the current Discourse version.
+- Test with signed-in and signed-out users.
+- Test with categories without descriptions.
+- Test with categories without subcategories.
+- Test with many categories and subcategories.
+- Test with Discourse in subfolder installations, because URLs are generated through `getURL()`.
+- Test with different theme colors, light/dark mode, and responsive viewports.
 
-## Manuelle Testanleitung
+## Manual Test Instructions
 
-1. Theme Component in Discourse aktualisieren.
-2. Als Administrator anmelden.
-3. Sicherstellen, dass die Startseite des Testnutzers auf `Kategorie` steht.
-4. `/categories` öffnen.
-5. Prüfen, ob der Umschalter `Standard` / `Opt-in` sichtbar ist.
-6. `Opt-in` anklicken.
-7. Prüfen, ob die URL `show_optin=true` enthält.
-8. Suchfeld testen.
-9. Benachrichtigungsstufe einer Unterkategorie ändern.
-10. Benachrichtigungsstufe über `Ganze Kategorie` ändern.
-11. Seite neu laden und prüfen, ob der Zustand konsistent bleibt.
-12. Als nicht angemeldeter Nutzer prüfen, ob keine Benachrichtigungsbuttons sichtbar sind.
-13. Browser-Konsole auf JavaScript-Fehler prüfen.
+1. Update the Theme Component in Discourse.
+2. Sign in as an administrator.
+3. Ensure that the test user's homepage is set to `Categories`.
+4. Open `/categories`.
+5. Check whether the `Standard` / `Opt-in` switcher is visible.
+6. Click `Opt-in`.
+7. Check whether the URL contains `show_optin=true`.
+8. Test the search field.
+9. Change the notification level of a subcategory.
+10. Change the notification level through `Ganze Kategorie`.
+11. Reload the page and verify that the state remains consistent.
+12. Check as a signed-out user that no notification buttons are visible.
+13. Check the browser console for JavaScript errors.
 
-## Bekannte Grenzen
+## Known Limitations
 
-- Die Opt-in-Ansicht ist an die Kategorienseite gebunden.
-- Der Button erscheint nicht automatisch auf anderen Discourse-Startseiten.
-- Die Kaskadierung betrifft direkte Unterkategorien, nicht beliebig tiefe Kategoriehierarchien.
-- Es gibt keine serverseitige Suche.
-- Es gibt keine eigene Persistenzschicht; Persistenz läuft über Discourse `category.setNotification()`.
+- The opt-in view is tied to the categories page.
+- The button does not automatically appear on other Discourse homepages.
+- Cascading affects direct subcategories, not arbitrarily deep category hierarchies.
+- There is no server-side search.
+- There is no custom persistence layer; persistence runs through Discourse `category.setNotification()`.
 
-## Lizenz
+## License
 
-Siehe `about.json`. Dort ist aktuell die Discourse-Lizenz-URL hinterlegt.
+See `about.json`. It currently references the Discourse license URL.
