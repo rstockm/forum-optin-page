@@ -3,6 +3,7 @@ import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { service } from "@ember/service";
 import { on } from "@ember/modifier";
+import { htmlSafe } from "@ember/template";
 import getURL from "discourse-common/lib/get-url";
 import OptinNotificationButton from "../../components/optin-notification-button";
 
@@ -128,6 +129,7 @@ export default class OptinView extends Component {
 
   wrapCategory(category, parentColor = null) {
     const color = safeCategoryColor(readCategoryValue(category, "color"));
+    const inheritedColor = parentColor ? safeCategoryColor(parentColor) : color;
 
     return {
       model: category,
@@ -138,7 +140,9 @@ export default class OptinView extends Component {
         "",
       url: this.getCategoryUrl(category),
       color,
-      parentColor: parentColor ? safeCategoryColor(parentColor) : color,
+      parentColor: inheritedColor,
+      cardStyle: htmlSafe(`border-left-color: #${color}`),
+      chipStyle: htmlSafe(`border-color: #${inheritedColor}`),
       notificationLevel: readCategoryValue(category, "notification_level"),
     };
   }
@@ -266,7 +270,7 @@ export default class OptinView extends Component {
         {{#each this.groupedCategories as |group|}}
           <section
             class="optin-card"
-            style={{concat "border-left-color: #" group.parent.color}}
+            style={{group.parent.cardStyle}}
           >
             <div class="optin-card-header">
               <a href={{group.parent.url}} class="optin-category-link">{{group.parent.name}}</a>
@@ -296,7 +300,7 @@ export default class OptinView extends Component {
                   <span
                     class="optin-chip"
                     data-notification-level={{sub.notificationLevel}}
-                    style={{concat "border-color: #" sub.parentColor}}
+                    style={{sub.chipStyle}}
                   >
                     <a href={{sub.url}} class="optin-category-link">{{sub.name}}</a>
 

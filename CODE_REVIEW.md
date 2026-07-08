@@ -22,6 +22,7 @@ This theme component adds an Opt-in view to the categories page. It follows curr
 |----------|-----------|-----------|
 | `optin-view.gjs` | `document.body.classList.toggle("optin-mode")` | Broad CSS scoping to hide default category list. Cleanup in `willDestroy`. |
 | `optin-view.gjs` | POJO wrappers for categories (`wrapCategory()`) | Template needs `url`, safe `description`, `parentColor`; keeps `.model` for `setNotification`. |
+| `optin-view.gjs` | `htmlSafe()` for inline styles | Ember requires trusted style bindings; values are built only from validated hex colors. |
 | `optin-view.gjs` | Inline SVG search/clear icons | Avoids `html-safe` string rendering while keeping connector-local icons simple. |
 | `optin-notification-button.gjs` | Module-level `activeDropdown` | Single-dropdown rule; keeps component self-contained. |
 | `optin-notification-button.gjs` | `@children` cascade | Parent change cascades to subcategories; custom UX. |
